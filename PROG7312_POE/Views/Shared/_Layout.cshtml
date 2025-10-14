@@ -1,0 +1,196 @@
+﻿@using PROG7312_POE.Controllers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SiguduVille Municipality</title>
+    <link href="/css/site.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* ======== GOLD THEME ======== */
+        :root {
+            --gold: #d4af37;
+            --dark-gold: #b68c28;
+            --bg-dark: #1c1c1c;
+        }
+
+        body {
+            background-color: #fffbea;
+            color: #2b2b2b;
+        }
+
+        header.site-header {
+            background: linear-gradient(90deg, var(--dark-gold), var(--gold));
+            color: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        header.site-header h1 {
+            font-weight: 700;
+        }
+
+        nav.navbar {
+            background-color: #fff;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .navbar-brand {
+            color: var(--dark-gold) !important;
+            font-weight: bold;
+        }
+
+        .nav-link {
+            color: #2b2b2b !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold) !important;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-primary {
+            background-color: var(--gold);
+            border-color: var(--gold);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-gold);
+            border-color: var(--dark-gold);
+        }
+
+        .btn-success {
+            background-color: var(--dark-gold);
+            border-color: var(--dark-gold);
+        }
+
+        .card {
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+        }
+
+        .card-title {
+            color: var(--dark-gold);
+            font-weight: 600;
+        }
+
+        .alert-info {
+            background-color: #fff8dc;
+            border-color: var(--gold);
+            color: #4b4b4b;
+        }
+
+        footer {
+            background-color: var(--bg-dark);
+            border-top: 3px solid var(--gold);
+        }
+
+        footer strong {
+            color: var(--gold);
+        }
+
+        .progress {
+            background-color: #f8f9fa;
+            border: 1px solid var(--gold);
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            background-color: var(--gold);
+        }
+
+        /* Hero styling */
+        .hero {
+            background: linear-gradient(135deg, #fff8e1, #fff3c4);
+            border: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+        }
+
+        a {
+            color: var(--dark-gold);
+        }
+
+        a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .logo-img {
+            height: 80px; 
+            width: auto;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+
+        
+        
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <div>
+                <img src="~/images/hero.png" class="logo-img" style="height=5px; border-radius:2px;" />
+            </div>
+            <div class="text-end">
+                <h1 class="mb-0">SiguduVille Municipality</h1>
+                <small class="text-light">Connecting Citizens to Services</small>
+            </div>
+        </div>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom border-warning shadow-sm">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand fw-bold text-warning" href="/">SiguduVille</a>
+
+            <!-- Hamburger toggle for small screens -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/ReportIssues/Create">Report an Issue</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/LocalEvents">Local Events & Announcements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled text-secondary" href="#" tabindex="-1" aria-disabled="true"
+                           title="Coming soon: Service Request Status">Service Request Status</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <main class="container my-4">
+        @RenderBody()
+    </main>
+
+    <footer class="text-white py-3 mt-4">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <strong>SiguduVille Municipality</strong>
+                <div class="small">123 Civic Centre, SiguduVille | Tel: (021) 555-0123 | info@riverdale.gov.za</div>
+            </div>
+            <div class="text-end small">
+                <div>Operated by SiguduVille Municipal IT</div>
+                <div>&copy; 2025 SiguduVille Municipality</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,109 @@
+﻿@model PROG7312_POE.Controllers.LandingViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="hero p-4 rounded mb-4">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h2>Welcome to @Model.MunicipalityName</h2>
+            <p class="lead">@Model.Tagline</p>
+            <p>
+                SiguduVille Municipality is committed to improving service delivery and increasing citizen engagement.
+                Use this portal to report issues, view local events, and track service requests (coming soon).
+            </p>
+            <a class="btn btn-lg btn-primary" href="/ReportIssues/Create">Report an Issue Now</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Stats</h5>
+                    <p class="card-text">Open reports: <strong>@Model.FeaturedEvents.Count()</strong></p>
+                    <p class="card-text">Announcements: <strong>@Model.Announcements.Count()</strong></p>
+                    <p class="card-text">Avg response: <strong>2 business days</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- EVENTS SECTION -->
+    <div class="col-md-8">
+        <h3 class="text-warning border-bottom pb-2">Featured Events</h3>
+        <div class="scroll-box mb-4 p-2 border border-warning rounded bg-light">
+            @foreach (var ev in Model.FeaturedEvents)
+            {
+                <div class="list-group-item mb-2 border-start border-3 border-warning shadow-sm rounded p-3">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 text-dark">@ev.Title</h5>
+                        <small class="text-muted">@ev.Date.ToLocalTime().ToString("dd MMM yyyy")</small>
+                    </div>
+                    <p class="mb-1">@ev.Summary</p>
+                    <small class="text-muted">@ev.Location</small>
+                </div>
+            }
+        </div>
+
+        <!-- ANNOUNCEMENTS SECTION -->
+        <h3 class="text-warning border-bottom pb-2">Announcements</h3>
+        <div class="scroll-box p-2 border border-warning rounded bg-light">
+            @foreach (var a in Model.Announcements)
+            {
+                <div class="alert alert-info border border-warning bg-white shadow-sm">
+                    <strong class="text-dark">@a.Title</strong>
+                    <small class="text-muted">(@a.Posted.ToLocalTime().ToString("dd MMM"))</small>
+                    <div>@a.Body</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- SIDE COLUMN -->
+    <div class="col-md-4">
+        <h4 class="text-warning">How to Report</h4>
+        <ol>
+            <li>Click <strong>Report an Issue</strong></li>
+            <li>Fill in the form (location, category, description)</li>
+            <li>Attach a photo if available and submit</li>
+        </ol>
+
+        <h4 class="mt-4 text-warning">Contact & Office Hours</h4>
+        <p>Mon - Fri: 08:00 - 16:00<br />Tel: (021) 555-0123</p>
+
+        <div class="card mt-3 border-warning shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Engagement</h5>
+                <p class="card-text">Report regularly to help us prioritise neighbourhood issues. Each submitted issue helps improve our municipal planning.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .scroll-box {
+        max-height: 300px; /* height of scroll box */
+        overflow-y: auto; /* vertical scroll */
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: #d4af37 #fff8e1;
+    }
+
+        /* Chrome scrollbar styling */
+        .scroll-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll-box::-webkit-scrollbar-track {
+            background: #fff8e1;
+        }
+
+        .scroll-box::-webkit-scrollbar-thumb {
+            background-color: #d4af37;
+            border-radius: 10px;
+        }
+
+            .scroll-box::-webkit-scrollbar-thumb:hover {
+                background-color: #b68c28;
+            }
+</style>

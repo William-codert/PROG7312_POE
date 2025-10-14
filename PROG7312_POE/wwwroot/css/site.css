@@ -1,0 +1,113 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Focus and accessibility styling */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+.form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #d4af37; /* gold glow */
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #fffdf6; /* soft gold tint */
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header and footer */
+.navbar, footer {
+    background: linear-gradient(90deg, #d4af37, #b8860b);
+    color: #fff;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #d4af37;
+    border-color: #b8860b;
+    color: #fff;
+}
+
+    .btn-primary:hover {
+        background-color: #b8860b;
+        border-color: #d4af37;
+        color: white;
+    }
+
+.btn-outline-primary {
+    border: 2px solid #d4af37;
+    color: #b8860b;
+    background-color: transparent;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #d4af37;
+        color: white;
+    }
+
+/* Cards and containers */
+.card {
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+}
+
+/* Progress bars */
+.progress {
+    background-color: #f7f2e8;
+    border-radius: 8px;
+    height: 20px;
+}
+
+.progress-bar {
+    background-color: #d4af37;
+    font-weight: bold;
+}
+
+/* Form labels and inputs */
+label {
+    font-weight: 600;
+    color: #b8860b;
+}
+
+input.form-control, textarea.form-control {
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+}
+
+    input.form-control:focus, textarea.form-control:focus {
+        border-color: #b8860b;
+        box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    }
+
+/* Section titles */
+h1, h2, h3, h4 {
+    color: #b8860b;
+    font-weight: bold;
+}
+
+/* Announcements & Events styling */
+.announcement-card, .event-card {
+    background: #fff;
+    border: 2px solid #d4af37;
+    padding: 1.2rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .announcement-card:hover, .event-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 14px rgba(212, 175, 55, 0.25);
+    }

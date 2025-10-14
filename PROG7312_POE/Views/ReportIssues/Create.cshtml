@@ -1,0 +1,72 @@
+﻿@model PROG7312_POE.Models.ReportIssue
+@{
+    ViewData["Title"] = "Report an Issue";
+}
+
+<h2>Report an Issue</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input asp-for="Location" class="form-control" placeholder="e.g. 12 Main St, Riverside" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select asp-for="Category" class="form-select">
+            <option value="">-- Select category --</option>
+            <option>Sanitation</option>
+            <option>Roads</option>
+            <option>Utilities</option>
+            <option>Street Lighting</option>
+            <option>Public Safety</option>
+        </select>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control" rows="5" placeholder="Describe the issue in detail..."></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Attach Image / Document (optional)</label>
+        <input asp-for="AttachmentFile" type="file" class="form-control" />
+        <div class="form-text">Accepted: images, PDFs. Max ~20MB.</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Engagement</label>
+        <div class="mb-2">Your contribution helps the community. Keep it up!</div>
+        <div class="progress" style="height:20px;">
+            <div id="engagementBar" class="progress-bar" role="progressbar" style="width: 40%;">40% towards community target</div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-secondary" href="/">Back to Main Menu</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Simple engagement simulator: increases when description length increases
+        const desc = document.querySelector('[name="Description"]');
+        const bar = document.getElementById('engagementBar');
+        if(desc){
+            desc.addEventListener('input', e =>{
+                const len = e.target.value.length;
+                const pct = Math.min(90, 30 + Math.floor(len / 2));
+                bar.style.width = pct + '%';
+                bar.textContent = pct + '% towards community target';
+            });
+        }
+    </script>
+}
