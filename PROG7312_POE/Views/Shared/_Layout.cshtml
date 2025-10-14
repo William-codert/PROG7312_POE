@@ -18,6 +18,9 @@
         body {
             background-color: #fffbea;
             color: #2b2b2b;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header.site-header {
@@ -126,9 +129,19 @@
             object-fit: contain;
         }
 
+        /* ======== Sticky Footer Fix ======== */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
 
         
-        
+
+        main {
+            flex: 1; /* ensures main grows to fill leftover space */
+        }
+
+ 
     </style>
 </head>
 

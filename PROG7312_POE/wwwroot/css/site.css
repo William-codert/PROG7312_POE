@@ -26,6 +26,11 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+main.container {
+    flex: 1; /* Take up remaining space */
+}
+
 /* Header and footer */
 .navbar, footer {
     background: linear-gradient(90deg, #d4af37, #b8860b);

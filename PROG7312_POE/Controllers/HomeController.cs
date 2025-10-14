@@ -7,6 +7,7 @@ namespace PROG7312_POE.Controllers
     {
         private readonly InMemoryRepository _repo;
 
+
         public HomeController(InMemoryRepository repo)
         {
             _repo = repo;
@@ -18,7 +19,7 @@ namespace PROG7312_POE.Controllers
             {
                 MunicipalityName = "SiguduVille Municipality",
                 Tagline = "Connecting Citizens to Services",
-                FeaturedEvents = _repo.GetEvents().ToList(),         
+                FeaturedEvents = _repo.GetSortedEvents().ToList(),         
                 Announcements = _repo.GetAnnouncements().ToList()     
             };
 
@@ -32,5 +33,6 @@ namespace PROG7312_POE.Controllers
         public string Tagline { get; set; } = "";
         public List<EventItem> FeaturedEvents { get; set; } = new();
         public List<AnnouncementItem> Announcements { get; set; } = new();
+
     }
 }
