@@ -44,32 +44,30 @@ Built with **ASP.NET Core MVC**, this project enables citizens to:
 
 PROG7312_POE/
 │
-├── Controllers/
-│ ├── HomeController.cs # Home landing page logic
-│ ├── LocalEventsController.cs # Event & announcement logic
-│ ├── ReportIssuesController.cs # Report issue submission handling
-│
-├── Models/
-│ ├── EventItem.cs # Event entity
-│ ├── AnnouncementItem.cs # Announcement entity
-│ ├── ReportIssue.cs # Citizen issue report entity
-│ ├── InMemoryRepository.cs # Data store & logic for searching, seeding, tracking
-│
-├── Views/
-│ ├── Home/Index.cshtml # Landing page UI
-│ ├── LocalEvents/Index.cshtml # Events and announcements UI
-│ ├── ReportIssues/Create.cshtml # Report form UI
-│ └── Shared/_Layout.cshtml # Master page layout & navbar
-│
-├── wwwroot/
-│ ├── css/site.css # Global custom styles
-│ ├── images/hero.png # Header image/logo
-│ └── uploads/ # Uploaded user attachments
-│
-└── Program.cs / Startup.cs # ASP.NET Core entrypoint and service registration
+-├── Controllers/
+  - │ ├── HomeController.cs # Home landing page logic
+  - │ ├── LocalEventsController.cs # Event & announcement logic
+  - │ ├── ReportIssuesController.cs # Report issue submission handling
+- │
+- ├── Models/
+  - │ ├── EventItem.cs # Event entity
+  - │ ├── AnnouncementItem.cs # Announcement entity
+  - │ ├── ReportIssue.cs # Citizen issue report entity
+  - │ ├── InMemoryRepository.cs # Data store & logic for searching, seeding, tracking
+- │
+- ├── Views/
+  - │ ├── Home/Index.cshtml # Landing page UI
+  - │ ├── LocalEvents/Index.cshtml # Events and announcements UI
+  - │ ├── ReportIssues/Create.cshtml # Report form UI
+  - │ └── Shared/_Layout.cshtml # Master page layout & navbar
+- │
+- ├── wwwroot/
+  - │ ├── css/site.css # Global custom styles
+  - │ ├── images/hero.png # Header image/logo
+  - │ └── uploads/ # Uploaded user attachments
+- │
+- └── Program.cs / Startup.cs # ASP.NET Core entrypoint and service registration
 
-yaml
-Copy code
 
 ---
 
@@ -86,26 +84,17 @@ Copy code
    ```bash
    git clone https://github.com/<your-username>/PROG7312_POE.git
    cd PROG7312_POE
-Build the project
+- Build the project
+  - dotnet build
+  - Run the web app
 
-bash
-Copy code
-dotnet build
-Run the web app
+  - dotnet run
+  - Open in browser
 
-bash
-Copy code
-dotnet run
-Open in browser
-
-arduino
-Copy code
-http://localhost:5000
-or if using HTTPS:
-
-arduino
-Copy code
-https://localhost:7000
+- arduino
+  - http://localhost:5000
+- or if using HTTPS:
+  - https://localhost:7000
 
 ---
 
