@@ -17,13 +17,10 @@ namespace PROG7312_POE.Controllers
         [HttpGet]
         public IActionResult Index(string? keyword, string? category, DateTime? eventDate, string? sortOrder)
         {
-            // Track user search
             _repo.TrackUserSearch(keyword, category, eventDate);
 
-            // Search events with keyword, category, and date
             var events = _repo.SearchEvents(keyword, category, eventDate);
 
-            // Sorting events
             events = sortOrder switch
             {
                 "date_desc" => events.OrderByDescending(e => e.Date),

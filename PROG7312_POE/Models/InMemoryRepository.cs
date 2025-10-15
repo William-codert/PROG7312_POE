@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 
 namespace PROG7312_POE.Models
 {
@@ -135,7 +132,6 @@ namespace PROG7312_POE.Models
 
         public IEnumerable<EventItem> GetPersonalizedRecommendations()
         {
-            // If user has no search history, just return upcoming events
             if (!_searchedCategories.Any() && !_searchedDates.Any())
             {
                 return _sortedEvents.Values
@@ -143,25 +139,22 @@ namespace PROG7312_POE.Models
                     .Take(3);
             }
 
-            // Find most searched category
             string? topCategory = _searchedCategories
                 .GroupBy(c => c)
                 .OrderByDescending(g => g.Count())
                 .Select(g => g.Key)
                 .FirstOrDefault();
 
-            // Find most searched date
             DateTime? topDate = _searchedDates
                 .GroupBy(d => d.Date)
                 .OrderByDescending(g => g.Count())
                 .Select(g => g.Key)
                 .FirstOrDefault();
 
-            // Recommend events matching top category or close to top date
             var recommended = _sortedEvents.Values
                 .Where(e =>
                     (topCategory != null && e.Category.Equals(topCategory, StringComparison.OrdinalIgnoreCase)) ||
-                    (topDate.HasValue && Math.Abs((e.Date - topDate.Value).TotalDays) <= 3)) // slightly larger window
+                    (topDate.HasValue && Math.Abs((e.Date - topDate.Value).TotalDays) <= 3)) 
                 .OrderBy(e => e.Date)
                 .Take(3)
                 .ToList();

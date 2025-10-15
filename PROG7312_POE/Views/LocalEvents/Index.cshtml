@@ -44,7 +44,6 @@
     </div>
 </form>
 
-<!-- Personalized Recommendations -->
 @if (Model.Recommendations != null && Model.Recommendations.Any())
 {
     <div class="alert alert-success mb-4">
@@ -58,7 +57,6 @@
     </div>
 }
 
-<!-- Main Event Listings -->
 @if (Model.Events == null || Model.Events.Count == 0)
 {
     <div class="alert alert-info">
@@ -85,7 +83,6 @@ else
     </div>
 }
 
-<!-- Announcements -->
 @if (Model.Announcements != null && Model.Announcements.Any())
 {
     <h3 class="mb-3">Announcements</h3>

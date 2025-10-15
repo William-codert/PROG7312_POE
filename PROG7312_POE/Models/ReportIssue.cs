@@ -16,13 +16,10 @@ namespace PROG7312_POE.Models
         [MinLength(10, ErrorMessage = "Please provide more details (at least 10 characters).")]
         public string Description { get; set; } = string.Empty;
 
-        // Uploaded file (not mapped to DB)
         public IFormFile? AttachmentFile { get; set; }
         public string? AttachmentPath { get; set; }
 
         public DateTime ReportedAt { get; set; }
-
-        // Optional: simulated status
         public string Status { get; set; } = "Pending";
     }
 }

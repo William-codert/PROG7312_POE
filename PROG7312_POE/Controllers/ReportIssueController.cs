@@ -21,7 +21,7 @@ namespace PROG7312_POE.Controllers
         }
 
         [HttpPost]
-        [RequestSizeLimit(20_000_000)] // up to ~20MB file
+        [RequestSizeLimit(20_000_000)] 
         public async Task<IActionResult> Create(ReportIssue model)
         {
             if (!ModelState.IsValid)
@@ -29,7 +29,6 @@ namespace PROG7312_POE.Controllers
                 return View(model);
             }
 
-            // Handle file attachment
             if (model.AttachmentFile != null && model.AttachmentFile.Length > 0)
             {
                 var uploads = Path.Combine(_env.WebRootPath, "uploads");
