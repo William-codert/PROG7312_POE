@@ -44,6 +44,19 @@
     </div>
 </form>
 
+@if (Model.Recommendations != null && Model.Recommendations.Any())
+{
+    <div class="alert alert-success mb-4">
+        <h5>Recommended Events for You</h5>
+        <ul class="mb-0">
+            @foreach (var rec in Model.Recommendations)
+            {
+                <li><strong>@rec.Title</strong> — @rec.Category (@rec.Date.ToLocalTime().ToString("dd MMM yyyy"))</li>
+            }
+        </ul>
+    </div>
+}
+
 @if (Model.Events == null || Model.Events.Count == 0)
 {
     <div class="alert alert-info">

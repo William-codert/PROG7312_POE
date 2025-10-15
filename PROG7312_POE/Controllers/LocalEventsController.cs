@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROG7312_POE.Models;
-
+using System;
+using System.Linq;
 
 namespace PROG7312_POE.Controllers
 {
@@ -16,6 +17,9 @@ namespace PROG7312_POE.Controllers
         [HttpGet]
         public IActionResult Index(string? keyword, string? category, DateTime? eventDate, string? sortOrder)
         {
+            // Log user search pattern for recommendation tracking
+            _repo.TrackUserSearch(keyword, category, eventDate);
+
             var events = _repo.SearchEvents(keyword, category);
 
             // ✅ Filter by date if provided
@@ -30,8 +34,8 @@ namespace PROG7312_POE.Controllers
                 "date_desc" => events.OrderByDescending(e => e.Date),
                 "name" => events.OrderBy(e => e.Title),
                 "name_desc" => events.OrderByDescending(e => e.Title),
-                "category" => events.OrderBy(e => e.Location),
-                "category_desc" => events.OrderByDescending(e => e.Location),
+                "category" => events.OrderBy(e => e.Category),
+                "category_desc" => events.OrderByDescending(e => e.Category),
                 _ => events.OrderBy(e => e.Date)
             };
 
@@ -39,7 +43,7 @@ namespace PROG7312_POE.Controllers
             {
                 Events = events.ToList(),
                 Categories = _repo.GetCategories().ToList(),
-                Recommendations = _repo.GetRecommendations().ToList(),
+                Recommendations = _repo.GetPersonalizedRecommendations().ToList(),
                 RecentlyViewed = _repo.GetRecentlyViewed().ToList(),
                 Keyword = keyword,
                 SelectedCategory = category,
@@ -55,8 +59,8 @@ namespace PROG7312_POE.Controllers
     {
         public List<EventItem> Events { get; set; } = new();
         public List<string> Categories { get; set; } = new();
-        public List<string> Recommendations { get; set; } = new();
         public List<EventItem> RecentlyViewed { get; set; } = new();
+        public List<EventItem> Recommendations { get; set; } = new();
         public string? Keyword { get; set; }
         public string? SelectedCategory { get; set; }
         public string? SortOrder { get; set; }

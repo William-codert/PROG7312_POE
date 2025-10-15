@@ -19,7 +19,7 @@ namespace PROG7312_POE.Controllers
             {
                 MunicipalityName = "SiguduVille Municipality",
                 Tagline = "Connecting Citizens to Services",
-                FeaturedEvents = _repo.GetSortedEvents().ToList(),         
+                FeaturedEvents = _repo.SearchEvents().ToList(),         
                 Announcements = _repo.GetAnnouncements().ToList()     
             };
 
