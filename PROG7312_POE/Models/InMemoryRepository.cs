@@ -30,7 +30,6 @@ namespace PROG7312_POE.Models
         private readonly List<AnnouncementItem> _announcements;
         private readonly List<ReportIssue> _reports;
 
-        // ✅ New: Track user search patterns
         private readonly List<string> _searchedCategories;
         private readonly List<DateTime> _searchedDates;
         private readonly List<string> _searchedKeywords;
@@ -51,8 +50,7 @@ namespace PROG7312_POE.Models
             Seed();
         }
 
-        // -------------------- EVENTS --------------------
-        public IEnumerable<EventItem> SearchEvents(string? keyword = null, string? category = null)
+        public IEnumerable<EventItem> SearchEvents(string? keyword = null, string? category = null, DateTime? date = null)
         {
             IEnumerable<EventItem> events = _sortedEvents.Values;
 
@@ -69,8 +67,33 @@ namespace PROG7312_POE.Models
                 events = events.Where(e => e.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
             }
 
+            if (date.HasValue)
+            {
+                events = events.Where(e => e.Date.Date == date.Value.Date);
+            }
+
             return events;
         }
+
+        public IEnumerable<AnnouncementItem> SearchAnnouncements(string? keyword = null, DateTime? date = null)
+        {
+            IEnumerable<AnnouncementItem> announcements = _announcements;
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                announcements = announcements.Where(a =>
+                    a.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                    a.Body.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (date.HasValue)
+            {
+                announcements = announcements.Where(a => a.Posted.Date == date.Value.Date);
+            }
+
+            return announcements;
+        }
+
 
         public void AddEvent(EventItem e)
         {
@@ -94,7 +117,6 @@ namespace PROG7312_POE.Models
         public IEnumerable<string> GetCategories() => _categories;
         public IEnumerable<AnnouncementItem> GetAnnouncements() => _announcements;
 
-        // -------------------- USER SEARCH TRACKING --------------------
         public void TrackUserSearch(string? keyword, string? category, DateTime? date)
         {
             if (!string.IsNullOrEmpty(keyword))
@@ -106,37 +128,40 @@ namespace PROG7312_POE.Models
             if (date.HasValue)
                 _searchedDates.Add(date.Value);
 
-            // Keep only recent 10 searches
             if (_searchedKeywords.Count > 10) _searchedKeywords.RemoveAt(0);
             if (_searchedCategories.Count > 10) _searchedCategories.RemoveAt(0);
             if (_searchedDates.Count > 10) _searchedDates.RemoveAt(0);
         }
 
-        // ✅ Recommendation algorithm: Based on most searched category/date
         public IEnumerable<EventItem> GetPersonalizedRecommendations()
         {
+            // If user has no search history, just return upcoming events
             if (!_searchedCategories.Any() && !_searchedDates.Any())
-                return Enumerable.Empty<EventItem>();
+            {
+                return _sortedEvents.Values
+                    .OrderBy(e => e.Date)
+                    .Take(3);
+            }
 
-            // Find the most frequently searched category
+            // Find most searched category
             string? topCategory = _searchedCategories
                 .GroupBy(c => c)
                 .OrderByDescending(g => g.Count())
                 .Select(g => g.Key)
                 .FirstOrDefault();
 
-            // Find the most searched date range
+            // Find most searched date
             DateTime? topDate = _searchedDates
                 .GroupBy(d => d.Date)
                 .OrderByDescending(g => g.Count())
                 .Select(g => g.Key)
                 .FirstOrDefault();
 
-            // Recommend events that match top category or similar date
+            // Recommend events matching top category or close to top date
             var recommended = _sortedEvents.Values
                 .Where(e =>
                     (topCategory != null && e.Category.Equals(topCategory, StringComparison.OrdinalIgnoreCase)) ||
-                    (topDate.HasValue && Math.Abs((e.Date - topDate.Value).TotalDays) <= 2))
+                    (topDate.HasValue && Math.Abs((e.Date - topDate.Value).TotalDays) <= 3)) // slightly larger window
                 .OrderBy(e => e.Date)
                 .Take(3)
                 .ToList();
@@ -144,34 +169,47 @@ namespace PROG7312_POE.Models
             return recommended;
         }
 
-        // -------------------- REPORTS --------------------
+
+
         public void AddReport(ReportIssue report) => _reports.Add(report);
         public IEnumerable<ReportIssue> GetReports() => _reports;
 
-        // -------------------- SEED DATA --------------------
         private void Seed()
         {
             var sampleEvents = new List<EventItem>
-            {
-                new() { Title = "Community Clean-up Day", Date = DateTime.UtcNow.AddDays(7), Location = "Riverside Park", Summary = "Join your neighbours for a morning of cleaning and recycling.", Category = "Community" },
-                new() { Title = "Youth Skills Workshop", Date = DateTime.UtcNow.AddDays(14), Location = "Town Hall", Summary = "Free workshops on computer skills and CV writing.", Category = "Education" },
-                new() { Title = "Local Farmers Market", Date = DateTime.UtcNow.AddDays(5), Location = "Central Square", Summary = "Support local farmers every Saturday.", Category = "Market" },
-                new() { Title = "Music in the Park", Date = DateTime.UtcNow.AddDays(10), Location = "Riverbank Amphitheatre", Summary = "Enjoy local jazz and family fun.", Category = "Entertainment" },
-                new() { Title = "Blood Donation Drive", Date = DateTime.UtcNow.AddDays(3), Location = "Civic Centre", Summary = "Donate blood and save lives.", Category = "Health" },
-                new() { Title = "Town Hall Budget Meeting", Date = DateTime.UtcNow.AddDays(20), Location = "Town Hall", Summary = "Discuss next year’s municipal budget.", Category = "Government" },
-                new() { Title = "Pet Adoption Fair", Date = DateTime.UtcNow.AddDays(2), Location = "Animal Shelter Grounds", Summary = "Find your new furry friend.", Category = "Community" },
-                new() { Title = "Waste Management Awareness", Date = DateTime.UtcNow.AddDays(11), Location = "Library Conference Room", Summary = "Learn about recycling and composting.", Category = "Environment" }
-            };
+    {
+        new() { Title = "Community Clean-up Day", Date = DateTime.UtcNow.AddDays(7), Location = "Riverside Park", Summary = "Join your neighbours for a morning of cleaning and recycling.", Category = "Community" },
+        new() { Title = "Youth Skills Workshop", Date = DateTime.UtcNow.AddDays(14), Location = "Town Hall", Summary = "Free workshops on computer skills and CV writing.", Category = "Education" },
+        new() { Title = "Local Farmers Market", Date = DateTime.UtcNow.AddDays(5), Location = "Central Square", Summary = "Support local farmers every Saturday.", Category = "Market" },
+        new() { Title = "Music in the Park", Date = DateTime.UtcNow.AddDays(10), Location = "Riverbank Amphitheatre", Summary = "Enjoy local jazz and family fun.", Category = "Entertainment" },
+        new() { Title = "Blood Donation Drive", Date = DateTime.UtcNow.AddDays(3), Location = "Civic Centre", Summary = "Donate blood and save lives.", Category = "Health" },
+        new() { Title = "Town Hall Budget Meeting", Date = DateTime.UtcNow.AddDays(20), Location = "Town Hall", Summary = "Discuss next year’s municipal budget.", Category = "Government" },
+        new() { Title = "Pet Adoption Fair", Date = DateTime.UtcNow.AddDays(2), Location = "Animal Shelter Grounds", Summary = "Find your new furry friend.", Category = "Community" },
+        new() { Title = "Waste Management Awareness", Date = DateTime.UtcNow.AddDays(11), Location = "Library Conference Room", Summary = "Learn about recycling and composting.", Category = "Environment" },
+
+        new() { Title = "Outdoor Yoga Session", Date = DateTime.UtcNow.AddDays(4), Location = "Sunrise Park", Summary = "Join a free outdoor yoga class for all skill levels.", Category = "Health" },
+        new() { Title = "Tech Career Fair", Date = DateTime.UtcNow.AddDays(15), Location = "City Convention Centre", Summary = "Meet top tech companies and explore career opportunities.", Category = "Education" },
+        new() { Title = "Charity Fun Run", Date = DateTime.UtcNow.AddDays(8), Location = "Riverside Track", Summary = "Participate in a 5km run to raise funds for local charities.", Category = "Community" },
+        new() { Title = "Local Art Exhibition", Date = DateTime.UtcNow.AddDays(12), Location = "Art Gallery", Summary = "Explore works from talented local artists.", Category = "Entertainment" },
+        new() { Title = "Farm-to-Table Cooking Workshop", Date = DateTime.UtcNow.AddDays(6), Location = "Community Kitchen", Summary = "Learn to cook healthy meals with fresh local produce.", Category = "Market" }
+    };
 
             foreach (var e in sampleEvents)
                 AddEvent(e);
 
             _announcements.AddRange(new List<AnnouncementItem>
-            {
-                new() { Title = "Water Disruption", Body = "Maintenance in northern suburbs 09:00–16:00.", Posted = DateTime.UtcNow.AddDays(-1) },
-                new() { Title = "New Recycling Schedule", Body = "Collections move to Thursdays next month.", Posted = DateTime.UtcNow.AddDays(-3) },
-                new() { Title = "Load Shedding Update", Body = "Stage 2 from 18:00 to 22:00 this week.", Posted = DateTime.UtcNow.AddDays(-2) }
-            });
+    {
+        new() { Title = "Water Disruption", Body = "Maintenance in northern suburbs 09:00–16:00.", Posted = DateTime.UtcNow.AddDays(-1) },
+        new() { Title = "New Recycling Schedule", Body = "Collections move to Thursdays next month.", Posted = DateTime.UtcNow.AddDays(-3) },
+        new() { Title = "Load Shedding Update", Body = "Stage 2 from 18:00 to 22:00 this week.", Posted = DateTime.UtcNow.AddDays(-2) },
+
+        new() { Title = "Community Garden Opening", Body = "Join us this weekend to celebrate the opening of the new community garden.", Posted = DateTime.UtcNow.AddDays(-5) },
+        new() { Title = "Library Extended Hours", Body = "Library will now be open until 20:00 on weekdays.", Posted = DateTime.UtcNow.AddDays(-4) },
+        new() { Title = "City Marathon", Body = "The annual city marathon is scheduled for next Sunday.", Posted = DateTime.UtcNow.AddDays(-6) },
+        new() { Title = "Local Theater Play", Body = "A new play opens at the community theater this Friday.", Posted = DateTime.UtcNow.AddDays(-2) },
+        new() { Title = "Public Transport Update", Body = "Bus route 12 will be temporarily rerouted due to roadworks.", Posted = DateTime.UtcNow.AddDays(-3) }
+    });
         }
+
     }
 }

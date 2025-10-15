@@ -17,18 +17,13 @@ namespace PROG7312_POE.Controllers
         [HttpGet]
         public IActionResult Index(string? keyword, string? category, DateTime? eventDate, string? sortOrder)
         {
-            // Log user search pattern for recommendation tracking
+            // Track user search
             _repo.TrackUserSearch(keyword, category, eventDate);
 
-            var events = _repo.SearchEvents(keyword, category);
+            // Search events with keyword, category, and date
+            var events = _repo.SearchEvents(keyword, category, eventDate);
 
-            // ✅ Filter by date if provided
-            if (eventDate.HasValue)
-            {
-                events = events.Where(e => e.Date.Date == eventDate.Value.Date);
-            }
-
-            // ✅ Sorting logic
+            // Sorting events
             events = sortOrder switch
             {
                 "date_desc" => events.OrderByDescending(e => e.Date),
@@ -39,12 +34,16 @@ namespace PROG7312_POE.Controllers
                 _ => events.OrderBy(e => e.Date)
             };
 
+            // Search announcements by keyword and date
+            var announcements = _repo.SearchAnnouncements(keyword, eventDate);
+
             var vm = new LocalEventsViewModel
             {
                 Events = events.ToList(),
                 Categories = _repo.GetCategories().ToList(),
                 Recommendations = _repo.GetPersonalizedRecommendations().ToList(),
                 RecentlyViewed = _repo.GetRecentlyViewed().ToList(),
+                Announcements = announcements.ToList(),
                 Keyword = keyword,
                 SelectedCategory = category,
                 SortOrder = sortOrder,
@@ -55,15 +54,17 @@ namespace PROG7312_POE.Controllers
         }
     }
 
-    public class LocalEventsViewModel
+        public class LocalEventsViewModel
     {
         public List<EventItem> Events { get; set; } = new();
         public List<string> Categories { get; set; } = new();
         public List<EventItem> RecentlyViewed { get; set; } = new();
         public List<EventItem> Recommendations { get; set; } = new();
+        public List<AnnouncementItem> Announcements { get; set; } = new();
         public string? Keyword { get; set; }
         public string? SelectedCategory { get; set; }
         public string? SortOrder { get; set; }
         public DateTime? SelectedDate { get; set; }
     }
+
 }
