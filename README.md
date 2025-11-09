@@ -1,222 +1,177 @@
 # 🏛 Municipality Report Issues Portal (MVC_POE)
 
-## Overview
+## 📖 Overview
+The **Municipality Report Issues Portal** is a web application designed to allow citizens to report local municipal issues such as sanitation problems, road repairs, utility disruptions, and loadshedding.  
 
-The *Municipality Report Issues Portal* is a web application designed to allow citizens to report local municipal issues such as sanitation problems, road repairs, utility disruptions, and loadshedding. The system provides an intuitive interface to submit reports, upload media attachments, and review all submissions. It is built using *ASP.NET Core MVC*, and all reports are temporarily stored in memory using a **HashSet** service.  
+The system provides an intuitive interface for users to:
+- Submit reports
+- Upload media attachments
+- Review all submissions
 
-The application also features a *confirmation workflow, dynamic progress bars, and search/filter functionality* by location and category.  
+Built using **ASP.NET Core MVC**, this application stores reports temporarily using an in-memory **HashSet** service and features a dynamic progress bar, confirmation workflow, and search/filter functionality.  
 
-In addition, the application includes an **Event Dashboard** where users can view, favorite, and navigate local events and announcements.
+It also includes an **Event Dashboard** and **Announcements Section** for community engagement.
 
 ---
 
-## 📂 Features
+## ✨ Features
 
 | Feature | Description |
-|---------|-------------|
-| Submit Reports | Users can submit issues by filling in *Location, Category, Description*, and optional media attachments. |
-| File Upload & Preview | Uploaded images are displayed as previews on the confirmation page. |
-| Confirmation Workflow | After entering details, users review their submission on a confirmation page before final submission. |
-| Dynamic Progress Bar | Shows the completion percentage as users fill in form fields. |
-| View All Reports | Displays all submitted reports as mini-cards with images in a carousel grouped by location. |
-| Search & Filter | Users can filter reports by location and category. |
-| Download Attachments | Uploaded files can be downloaded directly from the reports list. |
-| Event Dashboard | Users can view local events and announcements, filter by date/category, and favorite events. |
-| Favorites & Recommendations | Favorited events are stored in a priority queue, influencing recommended events on the dashboard. |
-| Collapsible Sidebar | Announcements sidebar shows latest and older announcements for easy navigation. |
+|----------|--------------|
+| **Submit Reports** | Citizens can report issues by entering Location, Category, Description, and optional media attachments. |
+| **File Upload & Preview** | Uploaded images are previewed on the confirmation page. |
+| **Confirmation Workflow** | Users can review their submission before final confirmation. |
+| **Dynamic Progress Bar** | Shows the completion progress of the form. |
+| **View All Reports** | Displays all submitted reports as mini-cards grouped by location. |
+| **Search & Filter** | Filter reports by location and category. |
+| **Download Attachments** | View or download uploaded images/files. |
+| **Event Dashboard** | Displays local events, allows favorites, and shows recommendations. |
+| **Favorites & Recommendations** | Uses a **Priority Queue** to rank and recommend events based on user interests. |
+| **Announcements Section** | Displays important notices, news, and community updates. |
 
 ---
 
 ## 🧩 Technologies Used
-
-- *C#* / ASP.NET Core MVC  
-- *Razor Pages* for Views  
-- *Bootstrap 5* for styling & carousels  
-- *JavaScript* for dynamic form interactions  
-- *HTML & CSS* for UI  
-- *In-memory HashSet* service for storing reports  
-- *PriorityQueue* for favorites/events  
-- *IFormFile* for file uploads  
-
----
-
-## 🏗 Project Structure
-
-MVC_POE/
-├── Controllers/
-│   ├── ReportIssuesController.cs
-│   ├── EventController.cs
-│   └── AnnouncementController.cs
-├── Models/
-│   ├── ReportIssuesForm.cs
-│   ├── Event.cs
-│   └── Announcement.cs
-├── Services/
-│   ├── HashSetService.cs
-│   ├── PriorityQueueService.cs
-│   └── FavoritesService.cs
-├── Views/
-│   ├── ReportIssues/
-│   │   ├── CreateReportIssues.cshtml
-│   │   ├── ReportIssuesConfirmation.cshtml
-│   │   └── ViewReportIssues.cshtml
-│   ├── Event/
-│   │   ├── AllEvents.cshtml
-│   │   └── EventDetails.cshtml
-│   └── Announcement/
-│       ├── AllAnnouncements.cshtml
-│       └── AnnouncementDetails.cshtml
-├── wwwroot/
-│   ├── images/
-│   └── uploads/
-├── Program.cs
-└── README.md
+- **C# / ASP.NET Core MVC**
+- **Razor Pages** for Views
+- **Bootstrap 5** for layout and styling
+- **JavaScript** for interactivity
+- **HTML & CSS** for UI
+- **In-memory HashSet Service** for temporary data storage
+- **PriorityQueue** for managing and recommending events
+- **IFormFile** for media uploads
 
 ---
 
-## 📝 Models
+## 🧱 Models
 
-### ReportIssuesForm
-
+### **ReportIssuesForm**
 | Property | Type | Description |
-|----------|------|-------------|
-| FormId | Guid | Unique ID for each report (auto-generated) |
-| Location | string | Location of the issue (required) |
-| Category | string | Category of issue (required) |
-| Description | string | Details of the problem (required) |
-| MediaAttachment | string? | Optional file path for uploaded media |
+|-----------|------|--------------|
+| FormId | Guid | Unique ID for each report |
+| Location | string | Location of the issue |
+| Category | string | Issue category (e.g., Sanitation, Roads) |
+| Description | string | Detailed description of the problem |
+| MediaAttachment | string? | Optional file path of the uploaded image |
 
-### Event
-
+### **Event**
 | Property | Type | Description |
-|----------|------|-------------|
-| EventId | Guid | Unique identifier for the event |
-| EventName | string | Name of the event |
-| EventCategory | string | Category (e.g., Music, Market, Walk) |
+|-----------|------|--------------|
+| EventId | Guid | Unique ID for each event |
+| EventName | string | Event title |
+| EventCategory | string | Event category (e.g., Music, Walk) |
 | EventDescription | string | Description of the event |
-| EventDateTime | DateTime | Scheduled date and time |
-| EventImage | string? | Optional image URL/path |
-| IsFavorite | bool | Indicates if the user has “hearted” the event |
+| EventDateTime | DateTime | Scheduled date/time |
+| EventImage | string? | Optional image path |
+| IsFavorite | bool | Indicates if user favorited it |
 
-### Announcement
-
+### **Announcement**
 | Property | Type | Description |
-|----------|------|-------------|
-| AnnouncementId | Guid | Unique ID for the announcement |
+|-----------|------|--------------|
+| AnnouncementId | Guid | Unique ID for announcement |
 | AnnouncementName | string | Title of the announcement |
-| AnnouncementCategory | string | Category (e.g., News, Event, Alert) |
-| AnnouncementDescription | string | Body content of the announcement |
+| AnnouncementCategory | string | Category (e.g., News, Event) |
+| AnnouncementDescription | string | Description of announcement |
 | AnnouncementDate | DateTime | Date of posting |
 
 ---
 
-## 🔧 Controllers
+## ⚙️ Controllers
 
-### ReportIssuesController
-
-| Action | Method | Description |
-|--------|--------|-------------|
-| CreateReportIssues | GET | Displays the report submission form |
-| ReportIssuesConfirmation | POST | Handles form submission and shows confirmation page |
-| ConfirmReportIssues | POST | Saves the report to the HashSet service and redirects to view page |
-| ViewReportIssues | GET | Displays all reports grouped by location in a carousel |
-| ShowReportIssuesConfirmation | POST | Handles filtered form submission with location/category selection |
-
-### EventController
+### **ReportIssuesController**
+Handles issue report creation and display.
 
 | Action | Method | Description |
-|--------|--------|-------------|
-| AllEvents | GET | Displays all events grouped by category with search/filter options |
-| EventDetails | GET | Shows details of a selected event, allows “heart/favorite” |
-| FavoriteEvent | POST | Marks an event as favorite for the logged-in user |
-| UnfavoriteEvent | POST | Removes event from the user's favorites |
-| RecommendedEvents | GET | Returns events recommended based on user favorites |
+|--------|---------|-------------|
+| `CreateReportIssues` | GET | Displays the report form |
+| `ReportIssuesConfirmation` | POST | Shows confirmation before saving |
+| `ConfirmReportIssues` | POST | Final submission; saves to in-memory store |
+| `ViewReportIssues` | GET | Displays all reports grouped by location |
 
-### AnnouncementController
+### **EventController**
+Manages event dashboard and favorites.
 
 | Action | Method | Description |
-|--------|--------|-------------|
-| AllAnnouncements | GET | Displays recent and older announcements with filters |
-| AnnouncementDetails | GET | Shows full details of a selected announcement |
-| FilterAnnouncements | POST | Filters announcements by date or category |
+|--------|---------|-------------|
+| `AllEvents` | GET | Lists all events by category |
+| `EventDetails` | GET | Shows event info and favorite option |
+| `FavoriteEvent` | POST | Adds an event to favorites |
+| `UnfavoriteEvent` | POST | Removes from favorites |
+| `RecommendedEvents` | GET | Shows events based on favorites |
+
+### **AnnouncementController**
+Displays and filters announcements.
+
+| Action | Method | Description |
+|--------|---------|-------------|
+| `AllAnnouncements` | GET | Shows latest and older announcements |
+| `AnnouncementDetails` | GET | Displays a single announcement |
+| `FilterAnnouncements` | POST | Filters announcements by category/date |
 
 ---
 
-## 🎨 Views
+## 🧠 Implemented Data Structures
 
-### Report Issues
+### **1️⃣ HashSet – For Storing Reports**
+- Used to store all submitted issue reports in-memory.
+- Prevents duplicates by automatically ensuring unique entries.
+- Enables **O(1)** average lookup and insertion time, ensuring fast performance.
+  
+**Example:**
+private static HashSet<ReportIssuesForm> _reports = new();
+Each time a report is submitted, it is added to this HashSet.
+This allows the “Service Request Status” feature to quickly retrieve reports without database queries, improving response time.
 
-- **CreateReportIssues.cshtml**: Form to submit a report with dynamic progress bar.
-- **ReportIssuesConfirmation.cshtml**: Displays submitted information for confirmation.
-- **ViewReportIssues.cshtml**: Shows reports in mini-cards inside carousels, grouped by location.
+## PriorityQueue – For Event Recommendations
+Manages event scheduling and favorites.
 
-### Event Dashboard
+Events are sorted by date or user interest (priority).
 
-- **AllEvents.cshtml**: Shows all events grouped by category in a carousel style.
-- Users can **search events** by keyword or filter by category/date.
-- Each event card includes:
-  - Event name, category, description, date, and image.
-  - “View Details” button.
-  - Heart icon to **favorite/heart** events.
-- Favorited events are stored in a **priority queue**, sorted by date.
-- Users can **remove favorites** from their list.
-- Favorited categories are used for **recommended events** on the dashboard.
+Ensures efficient retrieval of the most relevant events (O(log n)).
 
-### Announcements
+**Example:**
+PriorityQueue<Event, DateTime> eventQueue = new();
+When users favorite events, the system prioritizes similar categories in future recommendations.
 
-- **AllAnnouncements.cshtml**: Displays announcements separated into:
-  - **Latest announcements** (most recent 3)
-  - **Older announcements** (older 3)
-- Each card shows name, description, category, date, and a view link.
-- Users can filter announcements by **date** or **category**.
+## Dictionary – For Category Grouping
+Used to group service requests or events by location or category.
 
----
+Allows constant-time lookup of grouped items.
 
-## 💾 File Uploads
+Example:
+var groupedReports = reports.GroupBy(r => r.Location)
+                            .ToDictionary(g => g.Key, g => g.ToList());
+This enables the “Community Reports” page to display grouped data efficiently, reducing redundant iterations.
 
-- All uploaded images are saved in `wwwroot/uploads/`.
-- Previews are shown in confirmation and listing views.
-- Users can download uploaded files from the card footer.
+#Running the Application 
+Step 1: Clone the Project
+Open Visual Studio 2022 or later.
+Go to File → Clone Repository.
+Enter the repository URL:
+https://github.com/VCNMB-3rd-years/PROG7312_POE.git
+Click Clone.
 
----
+🖼️ Screenshots
+Section	Description	Screenshot
+Report Submission Page	Users fill in issue details and upload media	
 
-## 🧩 Services
+Confirmation Page	Displays submitted details before saving	
 
-### HashSetService
+Community Reports	Shows all reports grouped by location	
 
-- Stores user-submitted report issues in-memory.
-- Provides CRUD operations on reports.
+Event Dashboard	Displays local events and favorites	
 
-### PriorityQueueService
+Announcements Page	Lists latest and older announcements	
 
-- Manages all events using a priority queue.
-- Stores events by `EventDateTime` and allows efficient retrieval.
-- Works with **FavoritesService** to track user favorite events.
-- Provides recommended events based on favorite categories.
+#Summary
 
-### FavoritesService
+The Municipality Report Issues Portal delivers an accessible and efficient digital platform for citizens to report and track local municipal issues. It empowers communities to communicate directly with their municipalities through an intuitive interface designed for speed, clarity, and transparency.
+By utilizing in-memory data structures such as HashSet, Dictionary, and PriorityQueue, the system achieves high performance, real-time responsiveness, and organized data management—all without the need for a traditional database. This design ensures that reports, events, and announcements are efficiently processed and displayed to users in real time.
 
-- Tracks user favorites (hearted events).
-- Provides methods:
-  - `AddFavorite(Event e)`
-  - `RemoveFavorite(Guid eventId)`
-  - `GetFavoriteCategories()`
-  - `GetFavoriteEvents()`
-
----
-
-## 🚀 Running the Application
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/VCNMB-3rd-years/PROG7312_POE.git
-```
-2. Navigate into the project folder:
-```
-cd PROG7312_POE
-```
-3. Build and run the application:
-```
-dotnet run
-```
+#Conclusion
+The Service Request Status feature exemplifies the portal’s focus on performance and user experience through intelligent use of data structures:
+HashSet guarantees that every service request is unique, preventing duplicates and ensuring data integrity.
+Dictionary enables instant grouping and retrieval of reports by status, location, or category—reducing load times and improving clarity.
+List ensures that service requests and events are presented in a clean, ordered, and user-friendly format.
+PriorityQueue enhances the recommendation engine by efficiently prioritizing events based on user interest and time relevance.
+Together, these components form a robust, scalable, and responsive system that not only streamlines the reporting process but also strengthens community engagement. The result is a modern municipal portal that prioritizes efficiency, transparency, and user satisfaction, serving as a model for smart civic service management.
