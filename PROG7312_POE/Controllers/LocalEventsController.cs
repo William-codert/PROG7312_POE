@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROG7312_POE.Models;
-using System;
-using System.Linq;
+
 
 namespace PROG7312_POE.Controllers
 {
@@ -17,6 +16,12 @@ namespace PROG7312_POE.Controllers
         [HttpGet]
         public IActionResult Index(string? keyword, string? category, DateTime? eventDate, string? sortOrder)
         {
+            // Clear old searches when user comes to this page fresh
+            if (string.IsNullOrEmpty(keyword) && string.IsNullOrEmpty(category) && !eventDate.HasValue)
+            {
+                _repo.ClearSearchHistory();
+            }
+
             _repo.TrackUserSearch(keyword, category, eventDate);
 
             var events = _repo.SearchEvents(keyword, category, eventDate);
@@ -31,7 +36,6 @@ namespace PROG7312_POE.Controllers
                 _ => events.OrderBy(e => e.Date)
             };
 
-            // Search announcements by keyword and date
             var announcements = _repo.SearchAnnouncements(keyword, eventDate);
 
             var vm = new LocalEventsViewModel
@@ -49,19 +53,7 @@ namespace PROG7312_POE.Controllers
 
             return View(vm);
         }
-    }
 
-        public class LocalEventsViewModel
-    {
-        public List<EventItem> Events { get; set; } = new();
-        public List<string> Categories { get; set; } = new();
-        public List<EventItem> RecentlyViewed { get; set; } = new();
-        public List<EventItem> Recommendations { get; set; } = new();
-        public List<AnnouncementItem> Announcements { get; set; } = new();
-        public string? Keyword { get; set; }
-        public string? SelectedCategory { get; set; }
-        public string? SortOrder { get; set; }
-        public DateTime? SelectedDate { get; set; }
     }
 
 }

@@ -30,6 +30,8 @@ namespace PROG7312_POE.Models
         private readonly List<string> _searchedCategories;
         private readonly List<DateTime> _searchedDates;
         private readonly List<string> _searchedKeywords;
+        private readonly List<ServiceRequest> _serviceRequests = new();
+
 
         public InMemoryRepository()
         {
@@ -132,12 +134,11 @@ namespace PROG7312_POE.Models
 
         public IEnumerable<EventItem> GetPersonalizedRecommendations()
         {
-            if (!_searchedCategories.Any() && !_searchedDates.Any())
+            if (!_searchedCategories.Any() && !_searchedDates.Any() && !_searchedKeywords.Any())
             {
-                return _sortedEvents.Values
-                    .OrderBy(e => e.Date)
-                    .Take(3);
+                return Enumerable.Empty<EventItem>();
             }
+
 
             string? topCategory = _searchedCategories
                 .GroupBy(c => c)
@@ -154,7 +155,7 @@ namespace PROG7312_POE.Models
             var recommended = _sortedEvents.Values
                 .Where(e =>
                     (topCategory != null && e.Category.Equals(topCategory, StringComparison.OrdinalIgnoreCase)) ||
-                    (topDate.HasValue && Math.Abs((e.Date - topDate.Value).TotalDays) <= 3)) 
+                    (topDate.HasValue && Math.Abs((e.Date - topDate.Value).TotalDays) <= 3))
                 .OrderBy(e => e.Date)
                 .Take(3)
                 .ToList();
@@ -162,7 +163,27 @@ namespace PROG7312_POE.Models
             return recommended;
         }
 
+        public void AddServiceRequest(ServiceRequest req)
+        {
+            _serviceRequests.Add(req);
+        }
 
+        public IEnumerable<ServiceRequest> GetServiceRequests()
+        {
+            return _serviceRequests.OrderBy(r => r.SubmittedAt);
+        }
+
+        public ServiceRequest? FindRequest(string refCode)
+        {
+            return _serviceRequests.FirstOrDefault(r => r.ReferenceCode.Equals(refCode, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public void ClearSearchHistory()
+        {
+            _searchedKeywords.Clear();
+            _searchedCategories.Clear();
+            _searchedDates.Clear();
+        }
 
         public void AddReport(ReportIssue report) => _reports.Add(report);
         public IEnumerable<ReportIssue> GetReports() => _reports;
@@ -202,6 +223,69 @@ namespace PROG7312_POE.Models
         new() { Title = "Local Theater Play", Body = "A new play opens at the community theater this Friday.", Posted = DateTime.UtcNow.AddDays(-2) },
         new() { Title = "Public Transport Update", Body = "Bus route 12 will be temporarily rerouted due to roadworks.", Posted = DateTime.UtcNow.AddDays(-3) }
     });
+
+        SeedServiceRequests();
+        }
+        private void SeedServiceRequests()
+        {
+            var sampleRequests = new List<ServiceRequest>
+        {
+            new()
+            {
+                ReferenceCode = "SR1001",
+                Category = "Waste Management",
+                Location = "Central Square",
+                Status = "Pending",
+                Priority = 2,
+                SubmittedAt = DateTime.UtcNow.AddDays(-3),
+                Description = "Request to clear accumulated trash at Central Square."
+            },
+            new()
+            {
+                ReferenceCode = "SR1002",
+                Category = "Road Maintenance",
+                Location = "Maple Street",
+                Status = "In Progress",
+                Priority = 1,
+                SubmittedAt = DateTime.UtcNow.AddDays(-1),
+                Description = "Report a pothole on Maple Street near the school."
+            },
+            new()
+            {
+                ReferenceCode = "SR1003",
+                Category = "Street Lighting",
+                Location = "Oak Avenue",
+                Status = "Completed",
+                Priority = 3,
+                SubmittedAt = DateTime.UtcNow.AddDays(-5),
+                Description = "Street lights not functioning on Oak Avenue."
+            },
+            new()
+            {
+                ReferenceCode = "SR1004",
+                Category = "Water Supply",
+                Location = "Riverside Park",
+                Status = "Pending",
+                Priority = 2,
+                SubmittedAt = DateTime.UtcNow.AddDays(-2),
+                Description = "Water fountain at Riverside Park is leaking."
+            },
+            new()
+            {
+                ReferenceCode = "SR1005",
+                Category = "Community Safety",
+                Location = "Town Hall",
+                Status = "In Progress",
+                Priority = 1,
+                SubmittedAt = DateTime.UtcNow.AddDays(-4),
+                Description = "Request for increased patrol near Town Hall after hours."
+            }
+        };
+
+            foreach (var req in sampleRequests)
+            {
+                AddServiceRequest(req);
+            }
         }
 
     }

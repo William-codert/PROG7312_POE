@@ -32,7 +32,7 @@ main.container {
 }
 
 /* Header and footer */
-.navbar, footer {
+ footer {
     background: linear-gradient(90deg, #d4af37, #b8860b);
     color: #fff;
 }

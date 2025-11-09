@@ -31,27 +31,38 @@
         header.site-header h1 {
             font-weight: 700;
         }
-
+        /* Navbar clean white styling */
         nav.navbar {
-            background-color: #fff;
-            border-bottom: 3px solid var(--gold);
+            background-color: #fff !important; /* pure white background */
+            border-bottom: 1px solid #e0e0e0; /* subtle grey border */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* light shadow for depth */
         }
 
         .navbar-brand {
-            color: var(--dark-gold) !important;
+            color: #2b2b2b !important; /* dark neutral color */
             font-weight: bold;
         }
 
         .nav-link {
-            color: #2b2b2b !important;
-            transition: all 0.3s ease;
+            color: #2b2b2b !important; /* dark neutral color */
+            transition: color 0.3s ease, text-shadow 0.3s ease;
         }
 
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--gold) !important;
-            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+            .nav-link:hover,
+            .nav-link.active {
+                color: #d4af37 !important; /* gold only on hover/active */
+                text-shadow: 0 0 3px rgba(212, 175, 55, 0.3); /* subtle glow */
+            }
+
+        /* Navbar toggler button */
+        .navbar-toggler {
+            border-color: #d4af37; /* subtle gold border */
         }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28212,175,55,0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
 
         .btn-primary {
             background-color: var(--gold);
@@ -169,9 +180,9 @@
                         <a class="nav-link text-dark" href="/LocalEvents">Local Events & Announcements</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled text-secondary" href="#" tabindex="-1" aria-disabled="true"
-                           title="Coming soon: Service Request Status">Service Request Status</a>
+                        <a class="nav-link text-dark" href="/ServiceRequestStatus/Index">Service Request Status</a>
                     </li>
+
                 </ul>
             </div>
         </div>

@@ -1,0 +1,56 @@
+﻿@model PROG7312_POE.Models.ServiceRequestStatusViewModel
+@{
+    ViewData["Title"] = "Service Request Status";
+}
+
+<h2 class="mb-4 text-warning">Service Request Status</h2>
+
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input type="text" name="searchRef" class="form-control" placeholder="Enter Reference Code" />
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary">Track</button>
+    </div>
+</form>
+
+@if (Model.FoundRequest != null)
+{
+    <div class="alert alert-success">
+        <strong>@Model.FoundRequest.ReferenceCode</strong> — @Model.FoundRequest.Status
+        <p>@Model.FoundRequest.Description</p>
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead class="table-warning">
+        <tr>
+            <th>Reference</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Submitted</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var req in Model.Requests)
+        {
+            <tr>
+                <td>@req.ReferenceCode</td>
+                <td>@req.Category</td>
+                <td>@req.Location</td>
+                <td>@req.Status</td>
+                <td>@req.Priority</td>
+                <td>@req.SubmittedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="mt-4 text-warning">Data Structure Insights</h4>
+<div class="border p-3 rounded bg-light">
+    <p><strong>BST InOrder Traversal (Reference Codes):</strong> @string.Join(", ", Model.OrderedRefs)</p>
+    <p><strong>Heap Priorities:</strong> @string.Join(", ", Model.HeapPriorities)</p>
+    <p><strong>Graph BFS Traversal (Request Flow):</strong> @string.Join(" → ", Model.GraphPath)</p>
+</div>
