@@ -1,6 +1,6 @@
 # Municipality Report Issues Portal (MVC_POE)
 
-##Overview
+## Overview
 The **Municipality Report Issues Portal** is a web application designed to allow citizens to report local municipal issues such as sanitation problems, road repairs, utility disruptions, and loadshedding.  
 
 The system provides an intuitive interface for users to:
@@ -14,7 +14,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-##Features
+## Features
 
 | Feature | Description |
 |----------|--------------|
@@ -31,7 +31,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-##Technologies Used
+## Technologies Used
 - **C# / ASP.NET Core MVC**
 - **Razor Pages** for Views
 - **Bootstrap 5** for layout and styling
@@ -43,7 +43,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-##Models
+## Models
 
 ### **ReportIssuesForm**
 | Property | Type | Description |
@@ -76,7 +76,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-##Controllers
+## Controllers
 
 ### **ReportIssuesController**
 Handles issue report creation and display.
@@ -110,7 +110,7 @@ Displays and filters announcements.
 
 ---
 
-##Implemented Data Structures
+## Implemented Data Structures
 
 ### **HashSet – For Storing Reports**
 - Used to store all submitted issue reports in-memory.
@@ -151,7 +151,7 @@ Enter the repository URL:
 https://github.com/VCNMB-3rd-years/PROG7312_POE.git
 Click Clone.
 
-🖼️ Screenshots
+# Screenshots
 Section	Description	Screenshot
 Report Submission Page	Users fill in issue details and upload media	
 
@@ -163,12 +163,12 @@ Event Dashboard	Displays local events and favorites
 
 Announcements Page	Lists latest and older announcements	
 
-#Summary
+# Summary
 
 The Municipality Report Issues Portal delivers an accessible and efficient digital platform for citizens to report and track local municipal issues. It empowers communities to communicate directly with their municipalities through an intuitive interface designed for speed, clarity, and transparency.
 By utilizing in-memory data structures such as HashSet, Dictionary, and PriorityQueue, the system achieves high performance, real-time responsiveness, and organized data management—all without the need for a traditional database. This design ensures that reports, events, and announcements are efficiently processed and displayed to users in real time.
 
-#Conclusion
+# Conclusion
 The Service Request Status feature exemplifies the portal’s focus on performance and user experience through intelligent use of data structures:
 HashSet guarantees that every service request is unique, preventing duplicates and ensuring data integrity.
 Dictionary enables instant grouping and retrieval of reports by status, location, or category—reducing load times and improving clarity.
