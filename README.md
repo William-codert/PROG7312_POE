@@ -1,6 +1,6 @@
-# 🏛 Municipality Report Issues Portal (MVC_POE)
+# Municipality Report Issues Portal (MVC_POE)
 
-## 📖 Overview
+##Overview
 The **Municipality Report Issues Portal** is a web application designed to allow citizens to report local municipal issues such as sanitation problems, road repairs, utility disruptions, and loadshedding.  
 
 The system provides an intuitive interface for users to:
@@ -14,7 +14,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-## ✨ Features
+##Features
 
 | Feature | Description |
 |----------|--------------|
@@ -31,7 +31,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-## 🧩 Technologies Used
+##Technologies Used
 - **C# / ASP.NET Core MVC**
 - **Razor Pages** for Views
 - **Bootstrap 5** for layout and styling
@@ -43,7 +43,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-## 🧱 Models
+##Models
 
 ### **ReportIssuesForm**
 | Property | Type | Description |
@@ -76,7 +76,7 @@ It also includes an **Event Dashboard** and **Announcements Section** for commun
 
 ---
 
-## ⚙️ Controllers
+##Controllers
 
 ### **ReportIssuesController**
 Handles issue report creation and display.
@@ -110,9 +110,9 @@ Displays and filters announcements.
 
 ---
 
-## 🧠 Implemented Data Structures
+##Implemented Data Structures
 
-### **1️⃣ HashSet – For Storing Reports**
+### **HashSet – For Storing Reports**
 - Used to store all submitted issue reports in-memory.
 - Prevents duplicates by automatically ensuring unique entries.
 - Enables **O(1)** average lookup and insertion time, ensuring fast performance.
