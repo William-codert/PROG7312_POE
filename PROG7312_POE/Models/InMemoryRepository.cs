@@ -136,9 +136,9 @@ namespace PROG7312_POE.Models
         {
             if (!_searchedCategories.Any() && !_searchedDates.Any() && !_searchedKeywords.Any())
             {
+                // 🧠 No searches yet — return nothing
                 return Enumerable.Empty<EventItem>();
             }
-
 
             string? topCategory = _searchedCategories
                 .GroupBy(c => c)
@@ -162,6 +162,7 @@ namespace PROG7312_POE.Models
 
             return recommended;
         }
+
 
         public void AddServiceRequest(ServiceRequest req)
         {

@@ -11,6 +11,8 @@ namespace PROG7312_POE.Controllers
         public ServiceRequestStatusController(InMemoryRepository repo)
         {
             _repo = repo;
+
+            _repo.ClearSearchHistory();
         }
 
         [HttpGet]
