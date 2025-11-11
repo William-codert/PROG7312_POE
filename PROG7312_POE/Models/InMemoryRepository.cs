@@ -230,58 +230,108 @@ namespace PROG7312_POE.Models
         private void SeedServiceRequests()
         {
             var sampleRequests = new List<ServiceRequest>
+    {
+        new()
         {
-            new()
-            {
-                ReferenceCode = "SR1001",
-                Category = "Waste Management",
-                Location = "Central Square",
-                Status = "Pending",
-                Priority = 2,
-                SubmittedAt = DateTime.UtcNow.AddDays(-3),
-                Description = "Request to clear accumulated trash at Central Square."
-            },
-            new()
-            {
-                ReferenceCode = "SR1002",
-                Category = "Road Maintenance",
-                Location = "Maple Street",
-                Status = "In Progress",
-                Priority = 1,
-                SubmittedAt = DateTime.UtcNow.AddDays(-1),
-                Description = "Report a pothole on Maple Street near the school."
-            },
-            new()
-            {
-                ReferenceCode = "SR1003",
-                Category = "Street Lighting",
-                Location = "Oak Avenue",
-                Status = "Completed",
-                Priority = 3,
-                SubmittedAt = DateTime.UtcNow.AddDays(-5),
-                Description = "Street lights not functioning on Oak Avenue."
-            },
-            new()
-            {
-                ReferenceCode = "SR1004",
-                Category = "Water Supply",
-                Location = "Riverside Park",
-                Status = "Pending",
-                Priority = 2,
-                SubmittedAt = DateTime.UtcNow.AddDays(-2),
-                Description = "Water fountain at Riverside Park is leaking."
-            },
-            new()
-            {
-                ReferenceCode = "SR1005",
-                Category = "Community Safety",
-                Location = "Town Hall",
-                Status = "In Progress",
-                Priority = 1,
-                SubmittedAt = DateTime.UtcNow.AddDays(-4),
-                Description = "Request for increased patrol near Town Hall after hours."
-            }
-        };
+            ReferenceCode = "SR1001",
+            Category = "Waste Management",
+            Location = "Central Square",
+            Status = "Pending",
+            Priority = 2,
+            SubmittedAt = DateTime.UtcNow.AddDays(-3),
+            Description = "Request to clear accumulated trash at Central Square."
+        },
+        new()
+        {
+            ReferenceCode = "SR1002",
+            Category = "Road Maintenance",
+            Location = "Maple Street",
+            Status = "In Progress",
+            Priority = 1,
+            SubmittedAt = DateTime.UtcNow.AddDays(-1),
+            Description = "Report a pothole on Maple Street near the school."
+        },
+        new()
+        {
+            ReferenceCode = "SR1003",
+            Category = "Street Lighting",
+            Location = "Oak Avenue",
+            Status = "Completed",
+            Priority = 3,
+            SubmittedAt = DateTime.UtcNow.AddDays(-5),
+            Description = "Street lights not functioning on Oak Avenue."
+        },
+        new()
+        {
+            ReferenceCode = "SR1004",
+            Category = "Water Supply",
+            Location = "Riverside Park",
+            Status = "Pending",
+            Priority = 2,
+            SubmittedAt = DateTime.UtcNow.AddDays(-2),
+            Description = "Water fountain at Riverside Park is leaking."
+        },
+        new()
+        {
+            ReferenceCode = "SR1005",
+            Category = "Community Safety",
+            Location = "Town Hall",
+            Status = "In Progress",
+            Priority = 1,
+            SubmittedAt = DateTime.UtcNow.AddDays(-4),
+            Description = "Request for increased patrol near Town Hall after hours."
+        },
+        new()
+        {
+            ReferenceCode = "SR1006",
+            Category = "Parks & Recreation",
+            Location = "Sunrise Park",
+            Status = "Pending",
+            Priority = 2,
+            SubmittedAt = DateTime.UtcNow.AddDays(-1),
+            Description = "Install new benches and playground equipment."
+        },
+        new()
+        {
+            ReferenceCode = "SR1007",
+            Category = "Road Maintenance",
+            Location = "Elm Street",
+            Status = "In Progress",
+            Priority = 1,
+            SubmittedAt = DateTime.UtcNow.AddDays(-3),
+            Description = "Fix broken traffic lights at Elm Street intersection."
+        },
+        new()
+        {
+            ReferenceCode = "SR1008",
+            Category = "Street Cleaning",
+            Location = "Maple Avenue",
+            Status = "Completed",
+            Priority = 3,
+            SubmittedAt = DateTime.UtcNow.AddDays(-6),
+            Description = "Clean up fallen leaves and litter from Maple Avenue."
+        },
+        new()
+        {
+            ReferenceCode = "SR1009",
+            Category = "Water Supply",
+            Location = "Riverside Park",
+            Status = "Pending",
+            Priority = 2,
+            SubmittedAt = DateTime.UtcNow.AddDays(-2),
+            Description = "Test water quality at park fountain."
+        },
+        new()
+        {
+            ReferenceCode = "SR1010",
+            Category = "Community Safety",
+            Location = "Central Square",
+            Status = "In Progress",
+            Priority = 1,
+            SubmittedAt = DateTime.UtcNow.AddDays(-5),
+            Description = "Install additional CCTV cameras around Central Square."
+        }
+    };
 
             foreach (var req in sampleRequests)
             {
@@ -290,4 +340,5 @@ namespace PROG7312_POE.Models
         }
 
     }
+
 }

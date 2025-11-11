@@ -23,7 +23,7 @@ namespace PROG7312_POE.Models
         [Required]
         public string Status { get; set; } = "Pending";
 
-        public int Priority { get; set; } // For heap demo
+        public int Priority { get; set; } 
 
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
     }

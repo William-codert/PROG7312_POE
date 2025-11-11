@@ -22,7 +22,7 @@
     </div>
 }
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id="requestsTable">
     <thead class="table-warning">
         <tr>
             <th>Reference</th>
@@ -36,7 +36,14 @@
     <tbody>
         @foreach (var req in Model.Requests)
         {
-            <tr>
+            <tr data-bs-toggle="modal" data-bs-target="#requestModal"
+                data-ref="@req.ReferenceCode"
+                data-category="@req.Category"
+                data-location="@req.Location"
+                data-status="@req.Status"
+                data-priority="@req.Priority"
+                data-submitted="@req.SubmittedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")"
+                data-description="@req.Description">
                 <td>@req.ReferenceCode</td>
                 <td>@req.Category</td>
                 <td>@req.Location</td>
@@ -54,3 +61,41 @@
     <p><strong>Heap Priorities:</strong> @string.Join(", ", Model.HeapPriorities)</p>
     <p><strong>Graph BFS Traversal (Request Flow):</strong> @string.Join(" → ", Model.GraphPath)</p>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="requestModalLabel">Request Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Reference:</strong> <span id="modalRef"></span></p>
+                <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+                <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+                <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                <p><strong>Priority:</strong> <span id="modalPriority"></span></p>
+                <p><strong>Submitted:</strong> <span id="modalSubmitted"></span></p>
+                <p><strong>Description:</strong></p>
+                <p id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var requestModal = document.getElementById('requestModal');
+        requestModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            document.getElementById('modalRef').textContent = button.getAttribute('data-ref');
+            document.getElementById('modalCategory').textContent = button.getAttribute('data-category');
+            document.getElementById('modalLocation').textContent = button.getAttribute('data-location');
+            document.getElementById('modalStatus').textContent = button.getAttribute('data-status');
+            document.getElementById('modalPriority').textContent = button.getAttribute('data-priority');
+            document.getElementById('modalSubmitted').textContent = button.getAttribute('data-submitted');
+            document.getElementById('modalDescription').textContent = button.getAttribute('data-description');
+        });
+    </script>
+}
