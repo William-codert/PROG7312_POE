@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    /* Card hover effect */
+    .municipality-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+        .municipality-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .municipality-card img {
+            height: 200px;
+            object-fit: contain;
+            object-position: center;
+            width: 100%;
+        }
+
+        .municipality-card .card-body {
+            flex-grow: 1; /* pushes button to bottom */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .municipality-card .btn {
+            width: 100%;
+            background-color: black;
+            border: none;
+            border-radius: 0 0 15px 15px;
+            margin-top: auto; /* ensures it stays at bottom */
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+    .card-disabled {
+        background-color: black; 
+        color: #e9ecef; /* lighter text */
+        opacity: 0.8; /* slightly transparent */
+      pointer-events: none; /* prevents clicks */
+    }
+
+</style>
+
+<div class="row justify-content-center g-4" style="margin-top:10px">
+    <!-- Card 1 -->
+    <div class="col-md-3">
+        <a asp-controller="ReportIssues" asp-action="CreateReportIssues" class="municipality-card shadow-lg text-center">
+            <img src="images/reportissues.png" alt="Report Issues">
+            <button class="btn">Submit Report</button>
+        </a>
+    </div>
+
+    <!-- Card 2 -->
+    
+    <div class="col-md-3">
+        <div class="card card-disabled">
+            <a asp-controller="Home" asp-action="UnderMaintainence" class="municipality-card shadow-lg text-center">
+            <img src="images/annoucementsimage.png" alt="Events">
+            <button class="btn">View Events</button>
+        </a>
+    </div>
+    </div>
+
+    <!-- Card 3 Example -->
+    
+    <div class="col-md-3">
+        <div class="card card-disabled">
+            <a asp-controller="Home" asp-action="UnderMaintainence" class="municipality-card shadow-lg text-center">
+            <img src="images/serviceimage.png" alt="Updates">
+            @* <div class="card-body">
+               
+            </div> *@
+            <button class="btn">Check Status</button>
+        </a>
+    </div>
+    </div>
+</div>

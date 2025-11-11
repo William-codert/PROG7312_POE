@@ -1,0 +1,131 @@
+﻿@model MVC_POE.Models.ReportIssuesForm
+
+@{
+    ViewData["Title"] = "CreateReportIssues";
+    var locations = new List<string> { "Bluewater Bay","Newton Park","Motherwell","Circular Drive","Charlo","Walmer","Linton Grange","Westering","Mill Park","Summerstrand", "Uitenhage", "Despatch" };
+    var currentLocation = ViewData["CurrentLocation"]?.ToString();
+
+    var categories = new List<string> { "Road", "Utilities", "Sanitisation", "Loadshedding", "Water"};
+    var currentCategory = ViewData["CurrentCategories"]?.ToString();
+}
+
+<h1>Submit a Report Issue</h1>
+<hr />
+<div class="mb-3">
+    <label>Progress:</label>
+    <div class="progress">
+        <div id="formProgress" class="progress-bar bg-success" role="progressbar" style="width: 0%;">
+            0%
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div @* class="col-md-4"  *@class="mb-3">
+        <form asp-action="ShowReportIssuesConfirmation" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="FormId" class="control-label"></label>
+@*                 <input asp-for="FormId" class="form-control" /> *@
+@*                 <span asp-validation-for="FormId" class="text-danger"></span> *@
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <select name="location" class="form-select">
+                    <option value="">All Locations</option>
+                    @foreach (var loc in locations)
+                    {
+                        if (loc == currentLocation)
+                        {
+                            <option value="@loc" selected>@loc</option>
+                        }
+                        else
+                        {
+                            <option value="@loc">@loc</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select name="category" class="form-select">
+                    <option value="">All Categories</option>
+                    @foreach (var cat in categories)
+                    {
+                        if (cat == currentCategory)
+                        {
+                            <option value="@cat" selected>@cat</option>
+                        }
+                        else
+                        {
+                            <option value="@cat">@cat</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MediaAttachment" class="control-label"></label>
+                <input type="file" name="file" asp-for="MediaAttachment" class="form-control" />
+                <span asp-validation-for="MediaAttachment" class="text-danger"></span>
+            </div>
+            <span class="text-success">
+                @ViewBag.Message
+            </span>
+            <br/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+                <a asp-controller="ReportIssues" asp-action="ViewReportIssues" class="btn btn-dark">View All Reports</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Home</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    const fields = [
+        'Location',
+        'Category',
+        'Description',
+        'MediaAttachment'
+    ];
+
+    function updateProgress() {
+        let filled = 0;
+
+        fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.type === "file") {
+                    if (el.files.length > 0) filled++;
+                } else if (el.value.trim() !== "") {
+                    filled++;
+                }
+            }
+        });
+
+        const progress = Math.round((filled / fields.length) * 100);
+        const progressBar = document.getElementById('formProgress');
+        progressBar.style.width = progress + '%';
+        progressBar.textContent = progress + '%';
+    }
+
+    // Add event listeners
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateProgress);
+        if (el && el.type === "file") el.addEventListener('change', updateProgress);
+    });
+</script>

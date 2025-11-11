@@ -1,0 +1,114 @@
+﻿@model IEnumerable<MVC_POE.Models.ReportIssuesForm>
+
+@{
+    ViewData["Title"] = "ViewReportIssues";
+    var groupedForms = Model.GroupBy(f => f.Location).ToList();
+}
+
+<h1 class="mb-4">All Reported Issues</h1>
+<hr/>
+<form method="get" class="mb-4 d-flex">
+    <input type="text" name="location" value="@ViewData["CurrentLocation"]" 
+           class="form-control me-2" placeholder="Search by location..." />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<br/>
+<p>
+    <a asp-action="CreateReportIssues" class="btn btn-primary">Create New</a>
+</p>
+
+@foreach (var locationGroup in groupedForms)
+{
+    <h4 class="mt-5 mb-3">@locationGroup.Key</h4> <!-- Location heading -->
+
+    <div id="carousel-@locationGroup.Key.Replace(" ", "")" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @* Each carousel-item will contain multiple cards side by side *@
+            @for (int i = 0; i < locationGroup.Count(); i += 3) // 3 cards per slide
+            {
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <div class="d-flex justify-content-center gap-3">
+                        @foreach (var item in locationGroup.Skip(i).Take(3))
+                        {
+                            <div class="card shadow-sm text-center" style="width: 18rem; border-radius: 15px;">
+                               @if (!string.IsNullOrEmpty(item.MediaAttachment))
+                                {
+                                    <img src="@Url.Content(item.MediaAttachment)" 
+                                         class="card-img-top" 
+                                         alt="Attachment Preview" 
+                                         style="height:150px; object-fit:cover; border-radius:15px 15px 0 0;" />
+
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content("~/images/placeholder.png")" 
+                                         class="card-img-top" 
+                                         alt="No Attachment" 
+                                         style="height:150px; object-fit:cover; border-radius:15px 15px 0 0;" />
+                                }
+
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Category</h5>
+                                    <p class="card-text"><strong>Location:</strong> @item.Location</p>
+                                    <p class="card-text">@item.Description</p>
+                                </div>
+
+                                <div class="card-footer d-flex justify-content-around">
+                                    @if (!string.IsNullOrEmpty(item.MediaAttachment))
+                                    {
+                                        <a href="@item.MediaAttachment" target="_blank" class="btn btn-sm btn-primary">View</a>
+                                        <a href="@item.MediaAttachment" download="@item.MediaAttachment" class="btn btn-sm btn-secondary">Download</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No file</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-@locationGroup.Key.Replace(" ", "")" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel-@locationGroup.Key.Replace(" ", "")" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+}
+
+<style>
+    .card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    h4 {
+        color: #000; 
+    }
+
+    .carousel-item {
+        padding: 15px 0;
+    }
+
+    .carousel-inner .d-flex {
+        flex-wrap: nowrap; /* Ensure cards stay side by side */
+    }
+    .carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: dimgrey; /* makes arrows visible */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+</style>
